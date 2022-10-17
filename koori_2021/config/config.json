@@ -1,0 +1,10 @@
+{
+  "development": {
+    "username": "koori",
+    "password": "koori",
+    "database": "koori",
+    "host": "postgres_db",
+    "dialect": "postgres"
+  }
+  
+}

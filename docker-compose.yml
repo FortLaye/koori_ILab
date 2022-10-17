@@ -1,0 +1,76 @@
+version: '3.7'
+
+services:
+  koori_admin:
+    build:
+      context: ./kooriAdmin
+    volumes:
+      - ./kooriAdmin:/app
+    ports:
+      - "4202:4200"
+
+  koori_front:
+    build:
+      context: ./kooriFront
+    volumes:
+        - ./kooriFront:/app
+    ports:
+      - "4201:4200"
+
+  # application node_app
+  koori_app:
+    build:
+      context: ./koori_2021
+    volumes:
+      - ./koori_2021:/usr/src/app
+    ports:
+      - "8001:3001"
+    depends_on:
+      - postgres_db
+      
+  # database postgres
+  postgres_db:
+    hostname: postgres_db
+    image: postgres:11
+    #user: root
+    ports:
+      - "5433:5432"
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - /srv/postgres_data:/var/lib/postgresql/data
+  # keyclock
+  keycloak:
+    image: jboss/keycloak
+    #user: root
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres_db
+      DB_DATABASE: ${POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KEYCLOAK_USER: ${KEYCLOAK_EMAIL}
+      KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
+    volumes:
+      - /srv/keycloak:/var/lib/keycloak/data
+    ports:
+      - "8089:8080"
+    depends_on:
+      - postgres_db
+      
+  # pg-admin client postgres
+  pg_admin:
+    image: dpage/pgadmin4:4
+    ports:
+      - "9090:80"
+    depends_on:
+      - postgres_db
+    hostname: pgAdmin
+    restart: on-failure
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+

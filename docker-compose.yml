@@ -34,7 +34,7 @@ services:
     image: postgres:11
     #user: root
     ports:
-      - "5433:5432"
+      - "5432:5432"
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -48,7 +48,7 @@ services:
     #user: root
     environment:
       DB_VENDOR: POSTGRES
-      DB_ADDR: postgres_db
+      DB_ADDR: 127.0.0.1
       DB_DATABASE: ${POSTGRES_DB}
       DB_USER: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}

@@ -3,8 +3,21 @@
     "username": "koori",
     "password": "koori",
     "database": "koori",
-    "host": "postgres_db",
+    "host": "172.19.0.4",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "koori",
+    "password": "koori",
+    "database": "koori",
+    "host": "172.19.0.4",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "koori",
+    "password": "koori",
+    "database": "koori",
+    "host": "172.19.0.4",
     "dialect": "postgres"
   }
-  
 }

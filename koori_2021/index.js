@@ -7,6 +7,8 @@ const session = require('express-session');
 const Keycloak = require('keycloak-connect');
 const memoryStore = new session.MemoryStore();
 
+server.use(cors());
+
 server.use(session({
     secret: 'KWhjV<T=-*VW<;cC5Y6U-{F.ppK+])Ub',
     resave: false,
@@ -19,7 +21,7 @@ const keycloak = new Keycloak({ store: memoryStore })
 server.use(keycloak.middleware());
 server.use(bodyParser.urlencoded({extended: true}));
 server.use(bodyParser.json());
-server.use(cors())
+
 
 server.use('/api/', apiRouter);
 
